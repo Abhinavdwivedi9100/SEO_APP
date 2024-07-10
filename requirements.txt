@@ -6,3 +6,5 @@ facebook-sdk
 requests
 instagrapi
 python-dotenv
+praw
+streamlit_tags
