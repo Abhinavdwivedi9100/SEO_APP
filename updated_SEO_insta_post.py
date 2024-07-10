@@ -1,3 +1,4 @@
+# Content Optimizer for SEO and Social Media Posts
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
@@ -194,6 +195,32 @@ if 'summarized_content' in st.session_state:
         else:
             st.warning("Please fill out all fields.")
 
+# Section for uploading to Facebook
+if 'summarized_content' in st.session_state:
+    st.title("Facebook Post Auto-Upload")
+
+    api_token = st.text_input("Facebook API Token", type="password")
+
+    fb_uploaded_file = st.file_uploader("Choose an image for Facebook...", type=["jpg", "jpeg", "png"])
+
+    if st.button("Upload to Facebook"):
+        if api_token and fb_uploaded_file:
+            try:
+                fb_image_data = fb_uploaded_file.read()
+
+                success, message = post_to_facebook(api_token, st.session_state['summarized_content'], fb_image_data)
+                
+                if success:
+                    st.success(message)
+                else:
+                    st.error(message)
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+        else:
+            st.warning("Please fill out all fields.")
+else:
+    st.warning("Please enter a valid URL.")
+
 # Section for uploading to Reddit
 if 'summarized_content' in st.session_state:
     st.title("Reddit Post Auto-Upload")
@@ -272,7 +299,6 @@ if 'summarized_content' in st.session_state:
                             st.write(f"Failed to generate answer for question: {question_title}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
 # import streamlit as st
 # import requests
 # from bs4 import BeautifulSoup
