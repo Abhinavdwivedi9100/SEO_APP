@@ -8,3 +8,4 @@ instagrapi
 python-dotenv
 praw
 streamlit_tags
+selenium
